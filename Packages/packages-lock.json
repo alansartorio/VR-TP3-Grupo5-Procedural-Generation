@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "alansartorio.gridpathgenerator": {
+      "version": "https://github.com/alansartorio/PathGridGenerator-Unity.git?path=/alansartorio.gridpathgenerator",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "4a00e8683776828d667c46e72c73782046c35fc3"
+    },
     "com.unity.burst": {
       "version": "1.8.7",
       "depth": 1,
