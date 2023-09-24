@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AlanSartorio.GridPathGenerator;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -11,6 +13,13 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float timeBetweenNodes = 2;
     private float _timer = 0;
     private int _nodeIndex = 0;
+    private float _health = 2;
+    [NonSerialized] public UnityEvent OnDeath = new();
+
+    private void Start()
+    {
+        transform.localScale = Vector3.one * _health;
+    }
 
     void Update()
     {
@@ -38,5 +47,15 @@ public class EnemyBehaviour : MonoBehaviour
         );
 
         transform.position = position;
+    }
+
+    void Damage(float damage)
+    {
+        _health -= damage;
+        if (_health <= 0)
+        {
+            OnDeath.Invoke();
+            Destroy(gameObject);
+        }
     }
 }

@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using AlanSartorio.GridPathGenerator;
 using UnityEngine;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(MapGenerator))]
 public class EnemySpawner : MonoBehaviour
 {
     private List<Path<Vector2Int>> _paths;
-    private MapGenerator _mapGenerator;
+    [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private float spawnInterval = 5;
     private float _spawnTimer = 0;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private int targetSpawnAmount = 5;
     private int _spawnCount = 0;
+    [NonSerialized] public UnityEvent OnEnemyDeath = new();
+    [NonSerialized] public UnityEvent OnEnemySpawn = new();
+
+    public bool DidFinishSpawning => _spawnCount >= targetSpawnAmount;
 
     void Awake()
     {
-        _mapGenerator = GetComponent<MapGenerator>();
-        _mapGenerator.OnMapChanged.AddListener(OnMapChanged);
+        mapGenerator.OnMapChanged.AddListener(OnMapChanged);
     }
 
     private void OnDestroy()
     {
-        _mapGenerator.OnMapChanged.RemoveListener(OnMapChanged);
+        mapGenerator.OnMapChanged.RemoveListener(OnMapChanged);
     }
 
     private void OnMapChanged(GridPathGenerator<Vector2Int> generator)
@@ -51,20 +54,27 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemies()
     {
         _spawnCount++;
-        if (_spawnCount >= targetSpawnAmount)
+        if (DidFinishSpawning)
             enabled = false;
 
         foreach (var path in _paths)
         {
             var pos = path.Nodes[0];
-            var origin = _mapGenerator.GetNodeOrigin(pos);
+            var origin = mapGenerator.GetNodeOrigin(pos);
             var enemy = Instantiate(enemyPrefab);
             enemy.transform.position = origin;
             var enemyBehaviour = enemy.GetComponent<EnemyBehaviour>();
+            OnEnemySpawn.Invoke();
+            enemyBehaviour.OnDeath.AddListener(OnDeath);
             enemyBehaviour.Path = path;
             enemyBehaviour.gameStateManager = gameStateManager;
-            enemyBehaviour.mapGenerator = _mapGenerator;
+            enemyBehaviour.mapGenerator = mapGenerator;
         }
+    }
+
+    private void OnDeath()
+    {
+        OnEnemyDeath.Invoke();
     }
 
     private void ResetTimer()
