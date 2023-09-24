@@ -648,6 +648,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseObject: {fileID: 0}
+  arrowObject: {fileID: 919132149155446097, guid: f5f6de2e8e7aa1f99a141e550cce5792,
+    type: 3}
   borderObject: {fileID: 919132149155446097, guid: e1793edaaa6cb27de84d5f8ddfd71e0e,
     type: 3}
   gridSize: 5

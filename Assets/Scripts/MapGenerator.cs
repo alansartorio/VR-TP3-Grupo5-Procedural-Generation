@@ -17,6 +17,7 @@ public class MapGenerator : MonoBehaviour
     private Dictionary<Vector2Int, Vector2Int?> _nodeParent = new();
 
     [SerializeField] private GameObject baseObject;
+    [SerializeField] private GameObject arrowObject;
     [SerializeField] private GameObject borderObject;
     [SerializeField] private float gridSize;
 
@@ -135,6 +136,9 @@ public class MapGenerator : MonoBehaviour
 
             Destroy(_nodeBorderObjects[parent.Value][angleIndex]);
             Destroy(_nodeBorderObjects[pos][(angleIndex + 2) % 4]);
+
+            var arrow = Instantiate(arrowObject, nodeObject.transform);
+            arrow.transform.position = new Vector3(0, 0.01f, -gridSize);
 
             nodeObject.transform.localRotation = Quaternion.Euler(0, angleIndex * 90f, 0);
         }
