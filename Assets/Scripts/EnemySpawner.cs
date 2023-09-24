@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlanSartorio.GridPathGenerator;
@@ -12,6 +13,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnInterval = 5;
     private float _spawnTimer = 0;
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private int targetSpawnAmount = 5;
+    private int _spawnCount = 0;
 
     void Awake()
     {
@@ -39,8 +42,18 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        ResetTimer();
+        ResetSpawnCount();
+    }
+
     private void SpawnEnemies()
     {
+        _spawnCount++;
+        if (_spawnCount >= targetSpawnAmount)
+            enabled = false;
+
         foreach (var path in _paths)
         {
             var pos = path.Nodes[0];
@@ -54,8 +67,13 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public void ResetTimer()
+    private void ResetTimer()
     {
         _spawnTimer = 0;
+    }
+
+    private void ResetSpawnCount()
+    {
+        _spawnCount = 0;
     }
 }

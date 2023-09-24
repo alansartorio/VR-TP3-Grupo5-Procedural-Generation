@@ -12,10 +12,6 @@ public class EnemyBehaviour : MonoBehaviour
     private float _timer = 0;
     private int _nodeIndex = 0;
 
-    void Start()
-    {
-    }
-
     void Update()
     {
         _timer += Time.deltaTime;

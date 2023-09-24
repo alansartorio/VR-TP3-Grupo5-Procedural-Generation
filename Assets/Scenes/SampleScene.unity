@@ -685,6 +685,7 @@ MonoBehaviour:
   spawnInterval: 5
   enemyPrefab: {fileID: 8232952410979323268, guid: 55cdeffc8ae75d8ddaf56b423c577b32,
     type: 3}
+  targetSpawnAmount: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

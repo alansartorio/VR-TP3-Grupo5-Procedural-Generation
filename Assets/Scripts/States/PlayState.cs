@@ -9,7 +9,6 @@ public class PlayState : MonoBehaviour
 
     private void OnEnable()
     {
-        enemySpawner.ResetTimer();
         enemySpawner.enabled = true;
     }
 
