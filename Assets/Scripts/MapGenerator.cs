@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AlanSartorio.GridPathGenerator;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -18,10 +20,13 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private GameObject borderObject;
     [SerializeField] private float gridSize;
 
-    void Awake()
+    [NonSerialized] public UnityEvent<GridPathGenerator<Vector2Int>> OnMapChanged = new();
+
+    void Start()
     {
         _generator = new GridPathGenerator<Vector2Int>(1, 5, new Vector2IntNeighborGetter(), Vector2Int.zero);
         var delta = _generator.Initialize();
+        OnMapChanged.Invoke(_generator);
         ApplyDelta(delta);
         for (int i = 0; i < 10; i++)
         {
@@ -34,6 +39,7 @@ public class MapGenerator : MonoBehaviour
     {
         var delta = _generator.EnableNode(pos);
         ApplyDelta(delta);
+        OnMapChanged.Invoke(_generator);
     }
 
     private void ApplyDelta(NodesDelta<Vector2Int> delta)
@@ -42,7 +48,7 @@ public class MapGenerator : MonoBehaviour
         {
             _nodeParent.Remove(node.Position);
         }
-        
+
         foreach (var added in delta.addedNodes)
         {
             _nodeParent[added.node.Position] = added.parent?.Position;
@@ -73,7 +79,7 @@ public class MapGenerator : MonoBehaviour
             new(0, -1, 90),
             new(-1, 0, 0),
         };
-        
+
         _nodeBorderObjects[pos] = new GameObject[4];
         for (var i = 0; i < 4; i++)
         {
@@ -108,7 +114,7 @@ public class MapGenerator : MonoBehaviour
 
             var borderLeft = Instantiate(borderObject, nodeObject.transform, false);
             var borderRight = Instantiate(borderObject, nodeObject.transform, false);
-            
+
             borderLeft.transform.localPosition += new Vector3(-gridSize / 2, 0, -gridSize);
             borderRight.transform.localPosition += new Vector3(gridSize / 2, 0, -gridSize);
 
@@ -121,9 +127,9 @@ public class MapGenerator : MonoBehaviour
                 (-1, 0) => 3,
                 _ => throw new ArgumentOutOfRangeException()
             };
-            
+
             nodeObject.name = $"node: angle={angleIndex}";
-            
+
             CreateNodeBorders(pos, angleIndex, nodeObject.transform);
 
             Destroy(_nodeBorderObjects[parent.Value][angleIndex]);
@@ -132,7 +138,12 @@ public class MapGenerator : MonoBehaviour
             nodeObject.transform.localRotation = Quaternion.Euler(0, angleIndex * 90f, 0);
         }
 
-        nodeObject.transform.localPosition = new Vector3(pos.x, 0, pos.y) * gridSize * 2;
+        nodeObject.transform.localPosition = GetNodeOrigin(pos);
         _objects.Add(pos, nodeObject);
+    }
+
+    public Vector3 GetNodeOrigin(Vector2Int pos)
+    {
+        return new Vector3(pos.x, 0, pos.y) * gridSize * 2;
     }
 }
