@@ -17,6 +17,7 @@ public class MapGenerator : MonoBehaviour
     private Dictionary<Vector2Int, Vector2Int?> _nodeParent = new();
 
     [SerializeField] private GameObject baseObject;
+    [SerializeField] private GameObject entranceObject;
     [SerializeField] private GameObject arrowObject;
     [SerializeField] private GameObject borderObject;
     [SerializeField] private float gridSize;
@@ -36,7 +37,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    void ExpandNode(Vector2Int pos)
+    public void ExpandNode(Vector2Int pos)
     {
         var delta = _generator.EnableNode(pos);
         ApplyDelta(delta);
@@ -60,6 +61,23 @@ public class MapGenerator : MonoBehaviour
             AddNode(enabled.Position, _nodeParent[enabled.Position]);
         }
 
+        // Replace borders with entrances where determined
+        foreach (var enableable in _generator.GetEnableablePositions())
+        {
+            var parent = _nodeParent[enableable];
+            if (parent != null && _nodeBorderObjects.TryGetValue(parent.Value, out var parentBorders))
+            {
+                var angleIndex = DeltaToAngleIndex(enableable - parent.Value);
+                var border = parentBorders[angleIndex];
+                var entrance = Instantiate(entranceObject, _objects[parent.Value].transform);
+                entrance.transform.localPosition = border.transform.localPosition;
+                entrance.transform.localRotation = border.transform.localRotation;
+                entrance.GetComponent<EntranceBehaviour>().NodePosition = enableable;
+                Destroy(border);
+                parentBorders[angleIndex] = entrance;
+            }
+        }
+
         // foreach (var node in _objects.Values)
         // {
         //     node.GetComponent<NodeBehaviour>()?.Set(false);
@@ -69,6 +87,18 @@ public class MapGenerator : MonoBehaviour
         // {
         //     node.GetComponent<NodeBehaviour>()?.SetEnableable(true);
         // }
+    }
+
+    private int DeltaToAngleIndex(Vector2Int delta)
+    {
+        return (delta.x, delta.y) switch
+        {
+            (0, 1) => 0,
+            (1, 0) => 1,
+            (0, -1) => 2,
+            (-1, 0) => 3,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     private void CreateNodeBorders(Vector2Int pos, int angleIndex, Transform parent)
@@ -121,14 +151,7 @@ public class MapGenerator : MonoBehaviour
             borderRight.transform.localPosition += new Vector3(gridSize / 2, 0, -gridSize);
 
             var delta = pos - parent.Value;
-            var angleIndex = (delta.x, delta.y) switch
-            {
-                (0, 1) => 0,
-                (1, 0) => 1,
-                (0, -1) => 2,
-                (-1, 0) => 3,
-                _ => throw new ArgumentOutOfRangeException()
-            };
+            var angleIndex = DeltaToAngleIndex(delta);
 
             nodeObject.name = $"node: angle={angleIndex}";
 

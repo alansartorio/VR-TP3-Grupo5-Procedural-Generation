@@ -42,11 +42,11 @@ public class PlayState : MonoBehaviour
         if (!Physics.Raycast(ray, out var hitInfo))
             return;
 
-        var hitTransform = hitInfo.transform.parent;
-        if (!hitTransform.CompareTag("Enemy"))
+        var hitTransformParent = hitInfo.transform.parent;
+        if (hitTransformParent == null || !hitTransformParent.CompareTag("Enemy"))
             return;
 
-        var enemy = hitTransform.GetComponent<EnemyBehaviour>();
+        var enemy = hitTransformParent.GetComponent<EnemyBehaviour>();
         enemy.Damage(2);
     }
 }

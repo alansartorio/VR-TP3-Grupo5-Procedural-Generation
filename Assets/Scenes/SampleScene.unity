@@ -185,7 +185,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 40
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -473,6 +473,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1edc68c20ce8031899988d0ee6c897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointerPosition: {fileID: -3327855247840646420, guid: 02bfafa26943472fcad7c5142c79f74d,
+    type: 3}
+  interact: {fileID: 1933165807514030544, guid: 02bfafa26943472fcad7c5142c79f74d,
+    type: 3}
+  mapGenerator: {fileID: 1195287936}
 --- !u!114 &485773593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,7 +629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapGenerator: {fileID: 1195287936}
   gameStateManager: {fileID: 485773595}
-  spawnInterval: 5
+  spawnInterval: 1
   enemyPrefab: {fileID: 8232952410979323268, guid: 55cdeffc8ae75d8ddaf56b423c577b32,
     type: 3}
   targetSpawnAmount: 1
@@ -779,6 +784,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseObject: {fileID: 0}
+  entranceObject: {fileID: 7177089875641225916, guid: 90179bda4e2b705c7b3cc0074ae1bc01,
+    type: 3}
   arrowObject: {fileID: 919132149155446097, guid: f5f6de2e8e7aa1f99a141e550cce5792,
     type: 3}
   borderObject: {fileID: 919132149155446097, guid: e1793edaaa6cb27de84d5f8ddfd71e0e,

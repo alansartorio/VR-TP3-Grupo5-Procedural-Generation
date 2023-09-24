@@ -14,7 +14,7 @@ public class GameStateManager : MonoBehaviour
 {
     void Start()
     {
-        SetState(GameState.PlayState);
+        SetState(GameState.ExpandMap);
     }
 
     void SetState(GameState state)
@@ -38,5 +38,10 @@ public class GameStateManager : MonoBehaviour
     public void AllEnemiesKilled()
     {
         SetState(GameState.ExpandMap);
+    }
+
+    public void PlayerExpandedMap()
+    {
+        SetState(GameState.TimerState);
     }
 }
