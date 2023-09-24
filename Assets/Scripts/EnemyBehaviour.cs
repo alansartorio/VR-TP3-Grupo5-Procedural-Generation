@@ -49,7 +49,7 @@ public class EnemyBehaviour : MonoBehaviour
         transform.position = position;
     }
 
-    void Damage(float damage)
+    public void Damage(float damage)
     {
         _health -= damage;
         if (_health <= 0)
