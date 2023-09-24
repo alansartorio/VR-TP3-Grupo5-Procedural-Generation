@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
 {
     private List<Path<Vector2Int>> _paths;
     private MapGenerator _mapGenerator;
+    [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private float spawnInterval = 5;
     private float _spawnTimer = 0;
     [SerializeField] private GameObject enemyPrefab;
@@ -48,6 +49,7 @@ public class EnemySpawner : MonoBehaviour
             enemy.transform.position = origin;
             var enemyBehaviour = enemy.GetComponent<EnemyBehaviour>();
             enemyBehaviour.Path = path;
+            enemyBehaviour.gameStateManager = gameStateManager;
             enemyBehaviour.mapGenerator = _mapGenerator;
         }
     }

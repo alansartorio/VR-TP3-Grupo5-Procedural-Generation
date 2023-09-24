@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    public GameStateManager gameStateManager;
     public MapGenerator mapGenerator;
     public Path<Vector2Int> Path { get; set; }
     [SerializeField] private float timeBetweenNodes = 2;
@@ -27,6 +28,7 @@ public class EnemyBehaviour : MonoBehaviour
             if (_nodeIndex >= Path.Nodes.Count - 1)
             {
                 Destroy(gameObject);
+                gameStateManager.EnemyReachedBase();
                 return;
             }
         }

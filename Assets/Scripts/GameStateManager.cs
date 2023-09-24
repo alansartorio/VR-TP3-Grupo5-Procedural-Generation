@@ -23,4 +23,10 @@ public class GameStateManager : MonoBehaviour
         GetComponent<PlayState>().enabled = state == GameState.PlayState;
         GetComponent<TimerState>().enabled = state == GameState.TimerState;
     }
+
+
+    public void EnemyReachedBase()
+    {
+        SetState(GameState.TimerState);
+    }
 }
