@@ -104,6 +104,7 @@ public class MapGenerator : MonoBehaviour
             else
             {
                 nodeObject = new GameObject("Node");
+                nodeObject.transform.SetParent(transform);
                 CreateNodeBorders(pos, 0, nodeObject.transform);
             }
         }

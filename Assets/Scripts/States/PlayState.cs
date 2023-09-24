@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class PlayState : MonoBehaviour
 {
-    // private 
-    
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private EnemySpawner enemySpawner;
 
     private void OnEnable()
     {
-        
+        enemySpawner.ResetTimer();
+        enemySpawner.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        enemySpawner.enabled = false;
     }
 
     void Update()

@@ -25,7 +25,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnMapChanged(GridPathGenerator<Vector2Int> generator)
     {
-        Debug.Log("AAAA");
         _paths = generator.GetPathsFromLeaves().ToList();
     }
 
@@ -47,7 +46,14 @@ public class EnemySpawner : MonoBehaviour
             var origin = _mapGenerator.GetNodeOrigin(pos);
             var enemy = Instantiate(enemyPrefab);
             enemy.transform.position = origin;
-            // enemy.GetComponent<EnemyBehaviour>().SetPath();
+            var enemyBehaviour = enemy.GetComponent<EnemyBehaviour>();
+            enemyBehaviour.Path = path;
+            enemyBehaviour.mapGenerator = _mapGenerator;
         }
+    }
+
+    public void ResetTimer()
+    {
+        _spawnTimer = 0;
     }
 }
