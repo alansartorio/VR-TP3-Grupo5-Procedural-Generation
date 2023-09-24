@@ -29,4 +29,9 @@ public class GameStateManager : MonoBehaviour
     {
         SetState(GameState.TimerState);
     }
+
+    public void TimerFinishedCounting()
+    {
+        SetState(GameState.PlayState);
+    }
 }

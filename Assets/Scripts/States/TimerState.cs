@@ -1,18 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+[RequireComponent(typeof(GameStateManager))]
 public class TimerState : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private GameStateManager _gameStateManager;
+    public float duration = 2.5f;
+    private float _timer;
+    
     void Start()
     {
-        
+        _gameStateManager = GetComponent<GameStateManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        _timer += Time.deltaTime;
+        if (_timer > duration)
+        {
+            _gameStateManager.TimerFinishedCounting();
+        }
+    }
+
+    private void OnEnable()
+    {
+        ResetTimer();
+    }
+
+    private void ResetTimer()
+    {
+        _timer = 0;
     }
 }
