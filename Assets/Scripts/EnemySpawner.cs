@@ -74,6 +74,16 @@ public class EnemySpawner : MonoBehaviour
 
     public void CombineEnemies(GameObject enemy1, GameObject enemy2)
     {
+        var scriptEnemy1 = enemy1.GetComponent<EnemyBehaviour>();
+        var scriptEnemy2 = enemy2.GetComponent<EnemyBehaviour>();
+        
+        var health = scriptEnemy1.Health + scriptEnemy2.Health;
+        var path = scriptEnemy1.Path;
+        var nodeIndex = scriptEnemy1.NodeIndex;
+        var timer = scriptEnemy1.Timer;
+        var mapGenerator = scriptEnemy1.mapGenerator;
+        var gameStateManager = scriptEnemy1.gameStateManager;
+        
         // Destruye el enemigo actual.
         Destroy(enemy1);
 
@@ -83,15 +93,13 @@ public class EnemySpawner : MonoBehaviour
         // Genera un nuevo jefe.
         var bossObject = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
         bossObject.name = "Boss";
-        var scriptEnemy1 = enemy1.GetComponent<EnemyBehaviour>();
-        var scriptEnemy2 = enemy2.GetComponent<EnemyBehaviour>();
         var boss = bossObject.GetComponent<EnemyBehaviour>();
-        boss.Health = scriptEnemy1.Health + scriptEnemy2.Health;
-        boss.Path = scriptEnemy1.Path;
-        boss.NodeIndex = scriptEnemy1.NodeIndex;
-        boss.Timer = scriptEnemy1.Timer;
-        boss.mapGenerator = scriptEnemy1.mapGenerator;
-        boss.gameStateManager = scriptEnemy1.gameStateManager;
+        boss.Health = health;
+        boss.Path = path;
+        boss.NodeIndex = nodeIndex;
+        boss.Timer = timer;
+        boss.mapGenerator = mapGenerator;
+        boss.gameStateManager = gameStateManager;
         
         OnDeath();
     }
