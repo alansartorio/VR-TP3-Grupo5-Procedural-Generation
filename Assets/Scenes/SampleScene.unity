@@ -630,9 +630,11 @@ MonoBehaviour:
   mapGenerator: {fileID: 1195287936}
   gameStateManager: {fileID: 485773595}
   spawnInterval: 1
-  enemyPrefab: {fileID: 8232952410979323268, guid: 55cdeffc8ae75d8ddaf56b423c577b32,
-    type: 3}
   targetSpawnAmount: 1
+  enemyPrefabs:
+  - {fileID: 8232952410979323268, guid: 55cdeffc8ae75d8ddaf56b423c577b32, type: 3}
+  - {fileID: 4339360400871912759, guid: 7a90bc78560a870aea30d38f4598982a, type: 3}
+  - {fileID: 479294680010772236, guid: eb6bea70ee010a021a01d0d892791b47, type: 3}
 --- !u!4 &927533737
 Transform:
   m_ObjectHideFlags: 0

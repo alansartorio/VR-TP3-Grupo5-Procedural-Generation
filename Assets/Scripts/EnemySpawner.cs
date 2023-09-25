@@ -12,11 +12,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private float spawnInterval = 5;
     private float _spawnTimer = 0;
-    [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private int targetSpawnAmount = 5;
     private int _spawnCount = 0;
     [NonSerialized] public UnityEvent OnEnemyDeath = new();
     [NonSerialized] public UnityEvent OnEnemySpawn = new();
+    [SerializeField] private List<GameObject> enemyPrefabs;
 
     public bool DidFinishSpawning => _spawnCount >= targetSpawnAmount;
 
@@ -51,6 +51,11 @@ public class EnemySpawner : MonoBehaviour
         ResetSpawnCount();
     }
 
+    private GameObject GetEnemyPrefab(EnemyLevel enemyLevel)
+    {
+        return enemyPrefabs[(int)enemyLevel];
+    }
+
     private void SpawnEnemies()
     {
         _spawnCount++;
@@ -61,7 +66,7 @@ public class EnemySpawner : MonoBehaviour
         {
             var pos = path.Nodes[0];
             var origin = mapGenerator.GetNodeOrigin(pos);
-            var enemy = Instantiate(enemyPrefab);
+            var enemy = Instantiate(GetEnemyPrefab(EnemyLevel.Enemy));
             enemy.transform.position = origin;
             var enemyBehaviour = enemy.GetComponent<EnemyBehaviour>();
             OnEnemySpawn.Invoke();
@@ -75,32 +80,34 @@ public class EnemySpawner : MonoBehaviour
     public void CombineEnemies(GameObject enemy1, GameObject enemy2)
     {
         var scriptEnemy1 = enemy1.GetComponent<EnemyBehaviour>();
-        var scriptEnemy2 = enemy2.GetComponent<EnemyBehaviour>();
-        
-        var health = scriptEnemy1.Health + scriptEnemy2.Health;
+        // var scriptEnemy2 = enemy2.GetComponent<EnemyBehaviour>();
+
         var path = scriptEnemy1.Path;
         var nodeIndex = scriptEnemy1.NodeIndex;
         var timer = scriptEnemy1.Timer;
         var mapGenerator = scriptEnemy1.mapGenerator;
         var gameStateManager = scriptEnemy1.gameStateManager;
-        
+
+        var enemy1level = enemy1.GetComponent<EnemyController>().enemyLevel;
+        var enemy2level = enemy2.GetComponent<EnemyController>().enemyLevel;
+
         // Destruye el enemigo actual.
         Destroy(enemy1);
 
         // Destruye al enemigo alcanzado por el raycast.
         Destroy(enemy2);
 
+        var combinedLevel = (EnemyLevel)(Math.Max((int)enemy1level, (int)enemy2level) + 1);
+
         // Genera un nuevo jefe.
-        var bossObject = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-        bossObject.name = "Boss";
+        var bossObject = Instantiate(GetEnemyPrefab(combinedLevel), transform.position, Quaternion.identity);
         var boss = bossObject.GetComponent<EnemyBehaviour>();
-        boss.Health = health;
         boss.Path = path;
         boss.NodeIndex = nodeIndex;
         boss.Timer = timer;
         boss.mapGenerator = mapGenerator;
         boss.gameStateManager = gameStateManager;
-        
+
         OnDeath();
     }
 

@@ -18,7 +18,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
-        transform.localScale = Vector3.one * Health;
+        // transform.localScale = Vector3.one * Health;
     }
 
     void Update()
