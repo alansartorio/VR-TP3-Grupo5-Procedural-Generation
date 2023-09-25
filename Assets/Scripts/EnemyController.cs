@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,12 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public GameObject bossPrefab; // Arrastra el prefab del jefe desde el Assets en el Inspector.
+    private EnemySpawner _enemySpawner;
+
+    private void Start()
+    {
+        _enemySpawner = FindObjectOfType<EnemySpawner>();
+    }
 
     private void Update()
     {
@@ -16,14 +22,7 @@ public class EnemyController : MonoBehaviour
             // Verifica si el objeto alcanzado por el raycast es otro enemigo.
             if (hit.collider.CompareTag("Enemy") && hit.collider.gameObject != null)
             {
-                // Destruye el enemigo actual.
-                Destroy(gameObject);
-                
-                // Destruye al enemigo alcanzado por el raycast.
-                Destroy(hit.collider.gameObject);
-                
-                // Genera un nuevo jefe.
-                Instantiate(bossPrefab, transform.position, Quaternion.identity);
+                _enemySpawner.CombineEnemies(gameObject, hit.collider.gameObject);
             }
         }
     }

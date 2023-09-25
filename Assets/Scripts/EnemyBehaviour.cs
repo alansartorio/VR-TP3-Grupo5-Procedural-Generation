@@ -11,26 +11,26 @@ public class EnemyBehaviour : MonoBehaviour
     public MapGenerator mapGenerator;
     public Path<Vector2Int> Path { get; set; }
     [SerializeField] private float timeBetweenNodes = 2;
-    private float _timer = 0;
-    private int _nodeIndex = 0;
-    private float _health = 2;
+    public float Timer = 0;
+    public int NodeIndex = 0;
+    public float Health = 2;
     [NonSerialized] public UnityEvent OnDeath = new();
 
     private void Start()
     {
-        transform.localScale = Vector3.one * _health;
+        transform.localScale = Vector3.one * Health;
     }
 
     void Update()
     {
-        _timer += Time.deltaTime;
-        while (_timer > timeBetweenNodes)
+        Timer += Time.deltaTime;
+        while (Timer > timeBetweenNodes)
         {
-            _timer -= timeBetweenNodes;
-            _nodeIndex++;
+            Timer -= timeBetweenNodes;
+            NodeIndex++;
 
             // Reached base
-            if (_nodeIndex >= Path.Nodes.Count - 1)
+            if (NodeIndex >= Path.Nodes.Count - 1)
             {
                 Destroy(gameObject);
                 gameStateManager.EnemyReachedBase();
@@ -38,11 +38,11 @@ public class EnemyBehaviour : MonoBehaviour
             }
         }
 
-        var progress = _timer / timeBetweenNodes;
+        var progress = Timer / timeBetweenNodes;
 
         var position = Vector3.Lerp(
-            mapGenerator.GetNodeOrigin(Path.Nodes[_nodeIndex]),
-            mapGenerator.GetNodeOrigin(Path.Nodes[_nodeIndex + 1]),
+            mapGenerator.GetNodeOrigin(Path.Nodes[NodeIndex]),
+            mapGenerator.GetNodeOrigin(Path.Nodes[NodeIndex + 1]),
             progress
         );
 
@@ -51,8 +51,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Damage(float damage)
     {
-        _health -= damage;
-        if (_health <= 0)
+        Health -= damage;
+        if (Health <= 0)
         {
             OnDeath.Invoke();
             Destroy(gameObject);

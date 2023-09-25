@@ -72,6 +72,30 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void CombineEnemies(GameObject enemy1, GameObject enemy2)
+    {
+        // Destruye el enemigo actual.
+        Destroy(enemy1);
+
+        // Destruye al enemigo alcanzado por el raycast.
+        Destroy(enemy2);
+
+        // Genera un nuevo jefe.
+        var bossObject = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        bossObject.name = "Boss";
+        var scriptEnemy1 = enemy1.GetComponent<EnemyBehaviour>();
+        var scriptEnemy2 = enemy2.GetComponent<EnemyBehaviour>();
+        var boss = bossObject.GetComponent<EnemyBehaviour>();
+        boss.Health = scriptEnemy1.Health + scriptEnemy2.Health;
+        boss.Path = scriptEnemy1.Path;
+        boss.NodeIndex = scriptEnemy1.NodeIndex;
+        boss.Timer = scriptEnemy1.Timer;
+        boss.mapGenerator = scriptEnemy1.mapGenerator;
+        boss.gameStateManager = scriptEnemy1.gameStateManager;
+        
+        OnDeath();
+    }
+
     private void OnDeath()
     {
         OnEnemyDeath.Invoke();

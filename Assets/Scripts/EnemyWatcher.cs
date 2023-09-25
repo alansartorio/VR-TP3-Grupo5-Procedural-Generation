@@ -25,12 +25,12 @@ public class EnemyWatcher : MonoBehaviour
         _spawner.OnEnemySpawn.RemoveListener(OnEnemySpawn);
     }
 
-    private void OnEnemySpawn()
+    public void OnEnemySpawn()
     {
         _aliveEnemyCount++;
     }
 
-    private void OnEnemyDeath()
+    public void OnEnemyDeath()
     {
         _aliveEnemyCount--;
         if (_aliveEnemyCount == 0 && _spawner.DidFinishSpawning)
