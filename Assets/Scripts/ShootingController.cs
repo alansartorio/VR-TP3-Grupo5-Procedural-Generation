@@ -24,15 +24,15 @@ public class ShootingController : MonoBehaviour
         if (Physics.Raycast(gunBarrel.position, gunBarrel.forward, out hit, weaponRange))
         {
             // Verificar si el objeto impactado tiene el nombre "enemy"
-            if (hit.transform.gameObject.name == "enemy")
+            if (hit.transform.CompareTag("Enemy"))
             {
                 // Intenta obtener el componente de daño en el objeto impactado
-                Damageable target = hit.transform.GetComponent<Damageable>();
+                EnemyBehaviour target = hit.transform.GetComponent<EnemyBehaviour>();
 
                 if (target != null)
                 {
                     // Si el objeto impactado tiene un componente de daño, aplica daño
-                    target.TakeDamage(damagePerShot);
+                    target.Damage(damagePerShot);
                 }
             }
         }
