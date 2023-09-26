@@ -11,14 +11,25 @@ public class EnemyBehaviour : MonoBehaviour
     public MapGenerator mapGenerator;
     public Path<Vector2Int> Path { get; set; }
     [SerializeField] private float timeBetweenNodes = 2;
-    public float Timer = 0;
-    public int NodeIndex = 0;
+    public float Timer = -1;
+    public int NodeIndex = -1;
     public float Health = 2;
     [NonSerialized] public UnityEvent OnDeath = new();
 
     private void Start()
     {
         // transform.localScale = Vector3.one * Health;
+        if (Timer < 0)
+        {
+            Timer = timeBetweenNodes;
+        }
+    }
+
+    public void FixRotation()
+    {
+        var delta = Path.Nodes[NodeIndex + 1] - Path.Nodes[NodeIndex];
+        var angle = Mathf.Rad2Deg * Mathf.Atan2(delta.x, delta.y);
+        transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 
     void Update()
@@ -36,6 +47,8 @@ public class EnemyBehaviour : MonoBehaviour
                 gameStateManager.EnemyReachedBase();
                 return;
             }
+
+            FixRotation();
         }
 
         var progress = Timer / timeBetweenNodes;

@@ -107,7 +107,8 @@ public class EnemySpawner : MonoBehaviour
         boss.Timer = timer;
         boss.mapGenerator = mapGenerator;
         boss.gameStateManager = gameStateManager;
-
+        boss.FixRotation();
+        
         OnDeath();
     }
 
