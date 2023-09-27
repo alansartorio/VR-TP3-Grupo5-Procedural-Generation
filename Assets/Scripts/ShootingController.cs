@@ -1,23 +1,31 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.XR;
+using CommonUsages = UnityEngine.XR.CommonUsages;
+using InputDevice = UnityEngine.XR.InputDevice;
 
 public class ShootingController : MonoBehaviour
 {
-    public float fireRate = 0.1f;
+    public float fireRate = 10f;
     public int damagePerShot = 1;
     public float weaponRange = 100f;
     public Transform gunBarrel;
 
     private float nextFireTime;
-
+    [SerializeField] private InputActionReference triggerAction;
+    
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1") && Time.time > nextFireTime)
+        if (triggerAction.action.ReadValue<float>() > 0.5f && Time.time > nextFireTime)
         {
             nextFireTime = Time.time + 1f / fireRate;
             Shoot();
         }
     }
-
+    
+    
     private void Shoot()
     {
         RaycastHit hit;
