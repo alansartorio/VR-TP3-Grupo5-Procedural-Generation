@@ -8,13 +8,40 @@ using InputDevice = UnityEngine.XR.InputDevice;
 
 public class ShootingController : MonoBehaviour
 {
+    [SerializeField]
+    private ParticleSystem part;
+    [SerializeField]
+    private ParticleSystem OnFireSystemPrefab;
     public float fireRate = 10f;
     public int damagePerShot = 1;
-    public float weaponRange = 100f;
+    public float weaponRange = 10f;
     public Transform gunBarrel;
 
     private float nextFireTime;
-    [SerializeField] private InputActionReference triggerAction;
+
+    [SerializeField]
+    private AudioClip shootingSound; // Variable serializada para el clip de audio.
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>(); // Obtener el componente AudioSource.
+        
+        // Asegúrate de que el componente de Audio Source esté configurado.
+        if (audioSource == null)
+        {
+             Debug.LogError("El componente AudioSource no está asignado en el Inspector.");
+        }
+        else
+        {
+            // Asigna el clip de audio si se proporciona en el Inspector.
+            if (shootingSound != null)
+            {
+                audioSource.clip = shootingSound;
+            }
+        }
+    }
+ 
     
     private void Update()
     {
@@ -28,6 +55,11 @@ public class ShootingController : MonoBehaviour
     
     private void Shoot()
     {
+        part.Play();
+        if (audioSource != null && audioSource.clip != null)
+        {
+            audioSource.Play();
+        }
         RaycastHit hit;
         if (Physics.Raycast(gunBarrel.position, gunBarrel.forward, out hit, weaponRange))
         {
@@ -44,5 +76,6 @@ public class ShootingController : MonoBehaviour
                 }
             }
         }
+        Destroy(gameObject, part.main.duration);
     }
 }
