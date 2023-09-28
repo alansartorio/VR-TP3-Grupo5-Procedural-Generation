@@ -63,17 +63,22 @@ public class ShootingController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(gunBarrel.position, gunBarrel.forward, out hit, weaponRange))
         {
-            // Verificar si el objeto impactado tiene el nombre "enemy"
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                // Intenta obtener el componente de daño en el objeto impactado
-                EnemyBehaviour target = hit.transform.GetComponent<EnemyBehaviour>();
+            float hitDistance = Vector3.Distance(gunBarrel.position, hit.point);
 
-                if (target != null)
+            // Verificar si la distancia es menor o igual al rango del arma.
+            if (hitDistance <= weaponRange)
+            {
+               if (hit.transform.CompareTag("Enemy"))
                 {
-                    // Si el objeto impactado tiene un componente de daño, aplica daño
-                    target.Damage(damagePerShot);
-                }
+                    // Intenta obtener el componente de daño en el objeto impactado
+                    EnemyBehaviour target = hit.transform.GetComponent<EnemyBehaviour>();
+
+                    if (target != null)
+                    {
+                      // Si el objeto impactado tiene un componente de daño, aplica daño
+                      target.Damage(damagePerShot);
+                    }
+                } 
             }
         }
         Destroy(gameObject, part.main.duration);
