@@ -1217,9 +1217,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 927533736}
   enemyWatcher: {fileID: 927533735}
-  pointerPosition: {fileID: -3327855247840646420, guid: 02bfafa26943472fcad7c5142c79f74d,
-    type: 3}
-  attack: {fileID: 1933165807514030544, guid: 02bfafa26943472fcad7c5142c79f74d, type: 3}
 --- !u!114 &485773594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2081,12 +2078,12 @@ PrefabInstance:
     - target: {fileID: 6175433485032696619, guid: 29e94e392b2023f62995c90a33365a2f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 6175433485032696619, guid: 29e94e392b2023f62995c90a33365a2f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 6175433485032696619, guid: 29e94e392b2023f62995c90a33365a2f,
         type: 3}

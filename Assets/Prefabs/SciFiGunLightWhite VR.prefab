@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 131900, guid: 1d8e61deede12df46b37e582ad640c5c, type: 3}
       propertyPath: m_Name
-      value: SciFiGunLightWhite Variant
+      value: SciFiGunLightWhite VR
       objectReference: {fileID: 0}
     - target: {fileID: 495698, guid: 1d8e61deede12df46b37e582ad640c5c, type: 3}
       propertyPath: m_LocalPosition.x
