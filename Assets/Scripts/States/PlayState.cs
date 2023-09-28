@@ -15,6 +15,7 @@ public class PlayState : MonoBehaviour
         enemyWatcher.enabled = true;
         enemySpawner.enabled = true;
 
+        FindObjectOfType<ShootingController>().enabled = true;
         // pointerPosition.action.performed += PointerMoved;
         // attack.action.performed += AttackPerformed;
     }
@@ -23,6 +24,7 @@ public class PlayState : MonoBehaviour
     {
         // pointerPosition.action.performed -= PointerMoved;
         // attack.action.performed -= AttackPerformed;
+        FindObjectOfType<ShootingController>().enabled = false;
 
         enemySpawner.enabled = false;
         enemyWatcher.enabled = false;

@@ -109,6 +109,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9bba68748e8aa5da69a123ad4b6505b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Entrance
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -117,7 +122,17 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6514886691096340487}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9bba68748e8aa5da69a123ad4b6505b3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1378504591967443133}
   m_SourcePrefab: {fileID: 100100000, guid: 9bba68748e8aa5da69a123ad4b6505b3, type: 3}
+--- !u!23 &3019246591953023759 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 9bba68748e8aa5da69a123ad4b6505b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4478567486509920139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3667751675726435034 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9bba68748e8aa5da69a123ad4b6505b3,
@@ -139,12 +154,27 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 1.55}
+--- !u!114 &1378504591967443133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3667751675726435034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae9a8722c2b4f0b1b6b5027ad9bf59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 3019246591953023759}
+  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &4156162869189462112 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9bba68748e8aa5da69a123ad4b6505b3,
@@ -217,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 562aeb68148195ba986ae3761941c27a,
         type: 3}
       propertyPath: m_TagString
-      value: Entrance
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

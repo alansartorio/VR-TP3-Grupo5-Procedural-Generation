@@ -14,7 +14,7 @@ public class GameStateManager : MonoBehaviour
 {
     void Start()
     {
-        SetState(GameState.PlayState);
+        SetState(GameState.ExpandMap);
     }
 
     void SetState(GameState state)
