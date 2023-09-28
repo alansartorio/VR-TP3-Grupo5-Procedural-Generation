@@ -14,6 +14,8 @@ public class ShootingController : MonoBehaviour
 
     private float nextFireTime;
 
+    [SerializeField] private InputActionReference triggerAction;
+
     [SerializeField]
     private AudioClip shootingSound; // Variable serializada para el clip de audio.
     private AudioSource audioSource;

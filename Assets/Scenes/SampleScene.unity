@@ -2070,6 +2070,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1417568131}
     m_Modifications:
+    - target: {fileID: 5129497914297628661, guid: 29e94e392b2023f62995c90a33365a2f,
+        type: 3}
+      propertyPath: shootingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 72e27014c9e55de16a630d9e9aa4b43e, type: 3}
     - target: {fileID: 6175433485032405061, guid: 29e94e392b2023f62995c90a33365a2f,
         type: 3}
       propertyPath: m_Name
