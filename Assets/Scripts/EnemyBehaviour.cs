@@ -18,6 +18,8 @@ public class EnemyBehaviour : MonoBehaviour
     public UnityEvent<EnemyBehaviour> OnHealthChange;
     [NonSerialized] public UnityEvent OnDeath = new();
 
+    [SerializeField] private AudioSource hitAudioSource;
+
     private void Start()
     {
         // transform.localScale = Vector3.one * Health;
@@ -66,6 +68,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Damage(float damage)
     {
+        if (!hitAudioSource.isPlaying)
+            hitAudioSource.Play();
         Health -= damage;
         if (Health <= 0)
         {
