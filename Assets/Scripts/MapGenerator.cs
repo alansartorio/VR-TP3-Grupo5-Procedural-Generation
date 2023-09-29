@@ -133,6 +133,7 @@ public class MapGenerator : MonoBehaviour
         // var obj = Instantiate(fillerObjects[Random.Range(0, fillerObjects.Count)], parent, false);
         var obj = Instantiate(fillerObjects[Random.Range(0, fillerObjects.Count)]);
         obj.transform.position = GetNodeOrigin(pos) / 2;
+        obj.transform.Rotate(Vector3.up, Random.Range(0, 360f));
         _fillerObjects[pos] = obj;
     }
 
