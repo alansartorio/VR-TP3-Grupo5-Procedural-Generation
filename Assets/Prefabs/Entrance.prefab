@@ -358,8 +358,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.004
-  m_Center: {x: 0, y: 0, z: 0.0175}
+  m_Radius: 0.002
+  m_Center: {x: 0, y: 0, z: 0.017}
 --- !u!23 &6091637778159152124 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 40131700a75c9a74ca6547547cf197c1,
