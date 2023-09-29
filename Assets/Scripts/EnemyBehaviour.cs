@@ -13,7 +13,9 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float timeBetweenNodes = 2;
     public float Timer = -1;
     public int NodeIndex = -1;
+    public float MaxHealth = 2;
     public float Health = 2;
+    public UnityEvent<EnemyBehaviour> OnHealthChange;
     [NonSerialized] public UnityEvent OnDeath = new();
 
     private void Start()
@@ -67,8 +69,10 @@ public class EnemyBehaviour : MonoBehaviour
         Health -= damage;
         if (Health <= 0)
         {
+            Health = 0;
             OnDeath.Invoke();
             Destroy(gameObject);
         }
+        OnHealthChange.Invoke(this);
     }
 }
