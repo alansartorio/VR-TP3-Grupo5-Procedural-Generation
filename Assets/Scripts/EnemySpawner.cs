@@ -102,6 +102,7 @@ public class EnemySpawner : MonoBehaviour
         // Genera un nuevo jefe.
         var bossObject = Instantiate(GetEnemyPrefab(combinedLevel), transform.position, Quaternion.identity);
         var boss = bossObject.GetComponent<EnemyBehaviour>();
+        boss.OnDeath.AddListener(OnDeath);
         boss.Path = path;
         boss.NodeIndex = nodeIndex;
         boss.Timer = timer;

@@ -105,10 +105,10 @@ public class MapGenerator : MonoBehaviour
     {
         var positions = new Vector3[]
         {
-            new(0, 1, 90),
+            new(0, 1, -90),
             new(1, 0, 0),
             new(0, -1, 90),
-            new(-1, 0, 0),
+            new(-1, 0, 180),
         };
 
         _nodeBorderObjects[pos] = new GameObject[4];
@@ -117,7 +117,7 @@ public class MapGenerator : MonoBehaviour
             var data = positions[(i - angleIndex + 4) % 4];
             var border = Instantiate(borderObject, parent, false);
             border.transform.localPosition += new Vector3(data.x * gridSize / 2, 0, data.y * gridSize / 2);
-            border.transform.localRotation *= Quaternion.Euler(0, 0, data.z);
+            border.transform.localRotation *= Quaternion.Euler(0, data.z, 0);
             border.name = $"Node Border {i}";
             _nodeBorderObjects[pos][i] = border;
         }
