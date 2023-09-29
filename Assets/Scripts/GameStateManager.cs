@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
+using TMPro;
 using UnityEngine;
 
 public enum GameState
@@ -13,6 +15,8 @@ public enum GameState
 public class GameStateManager : MonoBehaviour
 {
     public GameState State { get; private set; }
+
+    [SerializeField] private TMP_Text text;
     
     void Start()
     {
@@ -25,6 +29,15 @@ public class GameStateManager : MonoBehaviour
         GetComponent<ExpandMapState>().enabled = state == GameState.ExpandMap;
         GetComponent<PlayState>().enabled = state == GameState.PlayState;
         GetComponent<TimerState>().enabled = state == GameState.TimerState;
+
+        var message = state switch
+        {
+            GameState.ExpandMap => "Find and Press a Button\nto Expand map",
+            GameState.TimerState => "Round Starting",
+            GameState.PlayState => "Burn The Spiders",
+        };
+
+        text.SetText(message);
     }
 
 
