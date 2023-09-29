@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStateManager: {fileID: 0}
   mapGenerator: {fileID: 0}
-  timeBetweenNodes: 2
+  timeBetweenNodes: 5
   Timer: 0
   NodeIndex: 0
   Health: 2

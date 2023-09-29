@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class ShootingController : MonoBehaviour
 {
     public float fireRate = 10f;
-    public int damagePerShot = 1;
+    public float damagePerShot = 1;
     public float weaponRange = 10f;
     public Transform gunBarrel;
 
