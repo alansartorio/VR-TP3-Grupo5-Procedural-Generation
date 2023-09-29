@@ -3106,6 +3106,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1833509103515436307, guid: daf2b3a3681c79451ada91eb4c1a6135,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833509103515436307, guid: daf2b3a3681c79451ada91eb4c1a6135,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833509103515436307, guid: daf2b3a3681c79451ada91eb4c1a6135,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3217912356248081585, guid: daf2b3a3681c79451ada91eb4c1a6135,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3140,6 +3155,24 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381988317411633063, guid: daf2b3a3681c79451ada91eb4c1a6135,
+        type: 3}
+      propertyPath: m_Text
+      value: "Bienvenido a Toasty!\n1.Tedr\xE1s que evitar que las ara\xF1as lleguen
+        a tu base.\n2. Al final de cada ronda tendr\xE1s que expandir el territorio
+        para empezar la siguiente\n3. Cuidado! No dej\xE9s que las ara\xF1as se junten...
+        o podr\xEDas lamentarlo"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381988317411633063, guid: daf2b3a3681c79451ada91eb4c1a6135,
+        type: 3}
+      propertyPath: m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381988317411633063, guid: daf2b3a3681c79451ada91eb4c1a6135,
+        type: 3}
+      propertyPath: m_CharacterSize
+      value: 0.035
       objectReference: {fileID: 0}
     - target: {fileID: 5196939064382631265, guid: daf2b3a3681c79451ada91eb4c1a6135,
         type: 3}
