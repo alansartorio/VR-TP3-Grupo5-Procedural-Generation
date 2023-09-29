@@ -32,6 +32,7 @@ public class MapGenerator : MonoBehaviour
         _generator = new GridPathGenerator<Vector2Int>(1, 5, new Vector2IntNeighborGetter(), Vector2Int.zero);
         var delta = _generator.Initialize();
         OnMapChanged.Invoke(_generator);
+        _fillerObjects[new Vector2Int(1, 1)] = null;
         ApplyDelta(delta);
         for (int i = 0; i < 10; i++)
         {
