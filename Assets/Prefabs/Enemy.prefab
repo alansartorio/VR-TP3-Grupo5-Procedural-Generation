@@ -53,8 +53,8 @@ MonoBehaviour:
   gameStateManager: {fileID: 0}
   mapGenerator: {fileID: 0}
   timeBetweenNodes: 5
-  Timer: 0
-  NodeIndex: 0
+  Timer: -1
+  NodeIndex: -1
   MaxHealth: 2
   Health: 2
   OnHealthChange:
