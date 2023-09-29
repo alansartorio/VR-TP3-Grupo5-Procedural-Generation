@@ -3,10 +3,6 @@ using UnityEngine.InputSystem;
 
 public class ShootingController : MonoBehaviour
 {
-    [SerializeField]
-    private ParticleSystem part;
-    [SerializeField]
-    private ParticleSystem OnFireSystemPrefab;
     public float fireRate = 10f;
     public int damagePerShot = 1;
     public float weaponRange = 10f;
@@ -16,18 +12,17 @@ public class ShootingController : MonoBehaviour
 
     [SerializeField] private InputActionReference triggerAction;
 
-    [SerializeField]
-    private AudioClip shootingSound; // Variable serializada para el clip de audio.
+    [SerializeField] private AudioClip shootingSound; // Variable serializada para el clip de audio.
     private AudioSource audioSource;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>(); // Obtener el componente AudioSource.
-        
+
         // Asegúrate de que el componente de Audio Source esté configurado.
         if (audioSource == null)
         {
-             Debug.LogError("El componente AudioSource no está asignado en el Inspector.");
+            Debug.LogError("El componente AudioSource no está asignado en el Inspector.");
         }
         else
         {
@@ -37,9 +32,35 @@ public class ShootingController : MonoBehaviour
                 audioSource.clip = shootingSound;
             }
         }
+
+        triggerAction.action.performed += StartShooting;
+        triggerAction.action.canceled += StopShooting;
     }
- 
-    
+
+    private void StopShooting(InputAction.CallbackContext obj)
+    {
+        foreach (ParticleSystem p in gameObject.GetComponentsInChildren<ParticleSystem>())
+        {
+            p.Stop();
+        }
+
+        audioSource.Stop();
+    }
+
+    private void StartShooting(InputAction.CallbackContext obj)
+    {
+        foreach (ParticleSystem p in gameObject.GetComponentsInChildren<ParticleSystem>())
+        {
+            p.Play();
+        }
+
+        if (audioSource != null && audioSource.clip != null && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+    }
+
+
     private void Update()
     {
         if (triggerAction.action.ReadValue<float>() > 0.5f && Time.time > nextFireTime)
@@ -48,15 +69,10 @@ public class ShootingController : MonoBehaviour
             Shoot();
         }
     }
-    
-    
+
+
     private void Shoot()
     {
-        part.Play();
-        if (audioSource != null && audioSource.clip != null)
-        {
-            audioSource.Play();
-        }
         RaycastHit hit;
         if (Physics.Raycast(gunBarrel.position, gunBarrel.forward, out hit, weaponRange))
         {
@@ -65,19 +81,18 @@ public class ShootingController : MonoBehaviour
             // Verificar si la distancia es menor o igual al rango del arma.
             if (hitDistance <= weaponRange)
             {
-               if (hit.transform.CompareTag("Enemy"))
+                if (hit.transform.CompareTag("Enemy"))
                 {
                     // Intenta obtener el componente de daño en el objeto impactado
                     EnemyBehaviour target = hit.transform.GetComponent<EnemyBehaviour>();
 
                     if (target != null)
                     {
-                      // Si el objeto impactado tiene un componente de daño, aplica daño
-                      target.Damage(damagePerShot);
+                        // Si el objeto impactado tiene un componente de daño, aplica daño
+                        target.Damage(damagePerShot);
                     }
-                } 
+                }
             }
         }
-        Destroy(gameObject, part.main.duration);
     }
 }
