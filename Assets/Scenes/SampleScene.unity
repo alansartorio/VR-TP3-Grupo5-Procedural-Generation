@@ -2070,6 +2070,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1417568131}
     m_Modifications:
+    - target: {fileID: 2604211512821104081, guid: 29e94e392b2023f62995c90a33365a2f,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4646310175032854143, guid: 29e94e392b2023f62995c90a33365a2f,
         type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value

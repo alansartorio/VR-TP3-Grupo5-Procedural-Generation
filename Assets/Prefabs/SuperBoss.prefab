@@ -147,6 +147,16 @@ PrefabInstance:
       propertyPath: enemyLevel
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8101447282505210975, guid: 7a90bc78560a870aea30d38f4598982a,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8101447282505210975, guid: 7a90bc78560a870aea30d38f4598982a,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2260962358456617204, guid: 7a90bc78560a870aea30d38f4598982a, type: 3}
