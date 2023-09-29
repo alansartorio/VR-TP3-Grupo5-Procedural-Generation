@@ -30,9 +30,10 @@ public class EnemyController : MonoBehaviour
         {
             var otherEnemy = collider.GetComponent<EnemyController>();
             if ((int)enemyLevel >= (int)EnemyLevel.SuperBoss ||
-                (int)otherEnemy.enemyLevel >= (int)EnemyLevel.SuperBoss) return;
+                (int)otherEnemy.enemyLevel >= (int)EnemyLevel.SuperBoss ||
+                otherEnemy.collided) return;
             collided = true;
-            collider.GetComponent<EnemyController>().collided = true;
+            otherEnemy.collided = true;
             _enemySpawner.CombineEnemies(gameObject, collider.gameObject);
         }
     }
