@@ -15,7 +15,9 @@ public class MapGenerator : MonoBehaviour
     private Dictionary<Vector2Int, GameObject> _objects = new();
     private Dictionary<Vector2Int, GameObject[]> _nodeBorderObjects = new();
     private Dictionary<Vector2Int, Vector2Int?> _nodeParent = new();
+    private Dictionary<Vector2Int, GameObject> _fillerObjects = new();
 
+    [SerializeField] private List<GameObject> fillerObjects;
     [SerializeField] private GameObject baseObject;
     [SerializeField] private GameObject entranceObject;
     [SerializeField] private GameObject arrowObject;
@@ -124,6 +126,15 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private void PutFillerObject(Vector2Int pos, Transform parent)
+    {
+        if (_fillerObjects.ContainsKey(pos)) return;
+        // var obj = Instantiate(fillerObjects[Random.Range(0, fillerObjects.Count)], parent, false);
+        var obj = Instantiate(fillerObjects[Random.Range(0, fillerObjects.Count)]);
+        obj.transform.position = GetNodeOrigin(pos) / 2;
+        _fillerObjects[pos] = obj;
+    }
+
     private void AddNode(Vector2Int pos, Vector2Int? parent)
     {
         GameObject nodeObject;
@@ -165,6 +176,10 @@ public class MapGenerator : MonoBehaviour
             anchor.transform.position = new Vector3(0, 0, -gridSize);
             var arrow = Instantiate(arrowObject, nodeObject.transform);
             arrow.transform.position = new Vector3(0, 0.01f, -gridSize);
+
+            var conjugate = new Vector2Int(delta.y, -delta.x);
+            PutFillerObject(pos * 2 - delta + conjugate, nodeObject.transform);
+            PutFillerObject(pos * 2 - delta - conjugate, nodeObject.transform);
 
             nodeObject.transform.localRotation = Quaternion.Euler(0, angleIndex * 90f, 0);
         }
