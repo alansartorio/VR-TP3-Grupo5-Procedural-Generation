@@ -21,13 +21,13 @@ public class ExpandMapState : MonoBehaviour
     private void OnEnable()
     {
         // interact.action.performed += InteractPerformed;
-        FindObjectOfType<ExpandController>().enabled = true;
+        // FindObjectOfType<ExpandController>().enabled = true;
     }
 
     private void OnDisable()
     {
         // interact.action.performed -= InteractPerformed;
-        FindObjectOfType<ExpandController>().enabled = false;
+        // FindObjectOfType<ExpandController>().enabled = false;
     }
     
     // private void InteractPerformed(InputAction.CallbackContext obj)
