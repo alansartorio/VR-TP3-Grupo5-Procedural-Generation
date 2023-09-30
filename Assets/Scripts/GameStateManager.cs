@@ -54,9 +54,9 @@ public class GameStateManager : MonoBehaviour
 
     public void AllEnemiesKilled()
     {
+        _roundNumber++;
         SetState(GameState.ExpandMap);
         _audioSource.PlayOneShot(roundFinishedSound);
-        _roundNumber++;
     }
 
     public void PlayerExpandedMap()
