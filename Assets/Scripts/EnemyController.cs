@@ -1,22 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 
 public enum EnemyLevel
 {
     Enemy = 0,
     Boss = 1,
-    SuperBoss = 2,
+    SuperBoss = 2
 }
 
 public class EnemyController : MonoBehaviour
 {
-    private EnemySpawner _enemySpawner;
-    public bool collided = false;
+    public bool collided;
     public EnemyLevel enemyLevel = EnemyLevel.Enemy;
+    private EnemySpawner _enemySpawner;
 
     private void Start()
     {

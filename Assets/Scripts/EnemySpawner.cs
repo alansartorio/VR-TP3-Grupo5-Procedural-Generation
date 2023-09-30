@@ -7,35 +7,25 @@ using UnityEngine.Events;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private List<Path<Vector2Int>> _paths;
     [SerializeField] private MapGenerator mapGenerator;
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private float spawnInterval = 5;
-    private float _spawnTimer = 0;
     [SerializeField] private int targetSpawnAmount = 5;
-    private int _spawnCount = 0;
+    [SerializeField] private List<GameObject> enemyPrefabs;
+    private List<Path<Vector2Int>> _paths;
+    private int _spawnCount;
+    private float _spawnTimer;
     [NonSerialized] public UnityEvent OnEnemyDeath = new();
     [NonSerialized] public UnityEvent OnEnemySpawn = new();
-    [SerializeField] private List<GameObject> enemyPrefabs;
 
     public bool DidFinishSpawning => _spawnCount >= targetSpawnAmount;
 
-    void Awake()
+    private void Awake()
     {
         mapGenerator.OnMapChanged.AddListener(OnMapChanged);
     }
 
-    private void OnDestroy()
-    {
-        mapGenerator.OnMapChanged.RemoveListener(OnMapChanged);
-    }
-
-    private void OnMapChanged(GridPathGenerator<Vector2Int> generator)
-    {
-        _paths = generator.GetPathsFromLeaves().ToList();
-    }
-
-    void Update()
+    private void Update()
     {
         _spawnTimer += Time.deltaTime;
         while (_spawnTimer > spawnInterval)
@@ -49,6 +39,16 @@ public class EnemySpawner : MonoBehaviour
     {
         ResetTimer();
         ResetSpawnCount();
+    }
+
+    private void OnDestroy()
+    {
+        mapGenerator.OnMapChanged.RemoveListener(OnMapChanged);
+    }
+
+    private void OnMapChanged(GridPathGenerator<Vector2Int> generator)
+    {
+        _paths = generator.GetPathsFromLeaves().ToList();
     }
 
     private GameObject GetEnemyPrefab(EnemyLevel enemyLevel)
@@ -109,7 +109,7 @@ public class EnemySpawner : MonoBehaviour
         boss.mapGenerator = mapGenerator;
         boss.gameStateManager = gameStateManager;
         boss.FixRotation();
-        
+
         OnDeath();
     }
 

@@ -1,25 +1,21 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(GameStateManager))]
 public class TimerState : MonoBehaviour
 {
-    private GameStateManager _gameStateManager;
     public float duration = 2.5f;
+    private GameStateManager _gameStateManager;
     private float _timer;
-    
-    void Start()
+
+    private void Start()
     {
         _gameStateManager = GetComponent<GameStateManager>();
     }
 
-    void Update()
+    private void Update()
     {
         _timer += Time.deltaTime;
-        if (_timer > duration)
-        {
-            _gameStateManager.TimerFinishedCounting();
-        }
+        if (_timer > duration) _gameStateManager.TimerFinishedCounting();
     }
 
     private void OnEnable()

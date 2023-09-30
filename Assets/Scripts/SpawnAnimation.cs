@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnAnimation : MonoBehaviour
 {
-    private float _duration = 0.5f;
-    private float _time = 0;
+    private readonly float _duration = 0.5f;
+    private float _time;
 
     private void Start()
     {
@@ -25,7 +24,7 @@ public class SpawnAnimation : MonoBehaviour
 
     private float Easing(float x)
     {
-        return Mathf.Sin((x * Mathf.PI) / 2);
+        return Mathf.Sin(x * Mathf.PI / 2);
     }
 
     private void Animate(float value)

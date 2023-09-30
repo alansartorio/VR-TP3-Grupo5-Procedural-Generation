@@ -3,17 +3,17 @@ using UnityEngine.UI;
 
 public class HealthbarController : MonoBehaviour
 {
-    private Camera _mainCamera;
     private Image _hpBarImage;
+    private Camera _mainCamera;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
     }
 
-    void Start()
+    private void Start()
     {
-        Transform hbContent = transform.Find("Canvas").Find("Content");
+        var hbContent = transform.Find("Canvas").Find("Content");
         _hpBarImage = hbContent.Find("Hp Bar").GetComponent<Image>();
         var enemy = transform.parent;
         var healthManager = enemy.GetComponent<EnemyBehaviour>();
@@ -21,7 +21,8 @@ public class HealthbarController : MonoBehaviour
         healthManager.OnHealthChange.AddListener(SetFillValues);
     }
 
-    void Update() {
+    private void Update()
+    {
         transform.rotation = _mainCamera.transform.rotation;
     }
 

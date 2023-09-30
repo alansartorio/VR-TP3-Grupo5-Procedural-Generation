@@ -7,18 +7,18 @@ public class FloatingHealthBar : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
 
-    void Start()
+    private void Start()
     {
         var enemy = transform.parent.parent;
         var healthManager = enemy.GetComponent<EnemyBehaviour>();
-        slider.value = (float)healthManager.Health / healthManager.MaxHealth;
-        healthManager.OnHealthChange.AddListener((healthManager) =>
+        slider.value = healthManager.Health / healthManager.MaxHealth;
+        healthManager.OnHealthChange.AddListener(healthManager =>
         {
-            slider.value = (float)healthManager.Health / healthManager.MaxHealth;
+            slider.value = healthManager.Health / healthManager.MaxHealth;
         });
     }
 
-    void Update()
+    private void Update()
     {
         transform.rotation = Camera.main.transform.rotation;
         transform.position = target.position + offset;

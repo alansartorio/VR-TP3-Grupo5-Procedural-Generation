@@ -1,20 +1,24 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class ExpandController : MonoBehaviour
 {
-    private MapGenerator _mapGenerator;
-    private GameStateManager _gameStateManager;
-    private Transform previousHighlight;
     public Transform gunBarrel;
 
     [SerializeField] private InputActionReference interactAction;
+    private GameStateManager _gameStateManager;
+    private MapGenerator _mapGenerator;
+    private Transform previousHighlight;
 
     private void Start()
     {
         _mapGenerator = FindObjectOfType<MapGenerator>();
         _gameStateManager = FindObjectOfType<GameStateManager>();
+    }
+
+    private void Update()
+    {
+        CheckButton();
     }
 
     private void OnEnable()
@@ -37,11 +41,6 @@ public class ExpandController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        CheckButton();
-    }
-
     private void CheckButton()
     {
         if (previousHighlight != null)
@@ -51,7 +50,6 @@ public class ExpandController : MonoBehaviour
         }
 
         if (Physics.Raycast(gunBarrel.position, gunBarrel.forward, out var hit, 100))
-        {
             // Debug.Log(hit.transform.name);
             if (hit.transform.CompareTag("Entrance"))
             {
@@ -63,6 +61,5 @@ public class ExpandController : MonoBehaviour
                     previousHighlight = button;
                 }
             }
-        }
     }
 }

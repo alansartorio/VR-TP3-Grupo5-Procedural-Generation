@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using AlanSartorio.GridPathGenerator;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,35 +7,25 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public GameStateManager gameStateManager;
     public MapGenerator mapGenerator;
-    public Path<Vector2Int> Path { get; set; }
     [SerializeField] private float timeBetweenNodes = 2;
     public float Timer = -1;
     public int NodeIndex = -1;
     public float MaxHealth = 2;
     public float Health = 2;
     public UnityEvent<EnemyBehaviour> OnHealthChange;
-    [NonSerialized] public UnityEvent OnDeath = new();
 
     [SerializeField] private AudioSource hitAudioSource;
     [SerializeField] private AudioClip deathAudioClip;
+    [NonSerialized] public UnityEvent OnDeath = new();
+    public Path<Vector2Int> Path { get; set; }
 
     private void Start()
     {
         // transform.localScale = Vector3.one * Health;
-        if (Timer < 0)
-        {
-            Timer = timeBetweenNodes;
-        }
+        if (Timer < 0) Timer = timeBetweenNodes;
     }
 
-    public void FixRotation()
-    {
-        var delta = Path.Nodes[NodeIndex + 1] - Path.Nodes[NodeIndex];
-        var angle = Mathf.Rad2Deg * Mathf.Atan2(delta.x, delta.y);
-        transform.rotation = Quaternion.Euler(0, angle, 0);
-    }
-
-    void Update()
+    private void Update()
     {
         Timer += Time.deltaTime;
         while (Timer > timeBetweenNodes)
@@ -67,6 +55,13 @@ public class EnemyBehaviour : MonoBehaviour
         transform.position = position;
     }
 
+    public void FixRotation()
+    {
+        var delta = Path.Nodes[NodeIndex + 1] - Path.Nodes[NodeIndex];
+        var angle = Mathf.Rad2Deg * Mathf.Atan2(delta.x, delta.y);
+        transform.rotation = Quaternion.Euler(0, angle, 0);
+    }
+
     public void Damage(float damage)
     {
         if (!hitAudioSource.isPlaying)
@@ -79,6 +74,7 @@ public class EnemyBehaviour : MonoBehaviour
             AudioSource.PlayClipAtPoint(deathAudioClip, transform.position);
             Destroy(gameObject);
         }
+
         OnHealthChange.Invoke(this);
     }
 }

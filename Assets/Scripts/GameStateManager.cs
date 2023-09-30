@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Timers;
 using TMPro;
 using UnityEngine;
 
@@ -14,20 +11,19 @@ public enum GameState
 
 public class GameStateManager : MonoBehaviour
 {
-    public GameState State { get; private set; }
-
     [SerializeField] private TMP_Text text;
     [SerializeField] private AudioClip roundFinishedSound;
     private AudioSource _audioSource;
     private int _roundNumber = 1;
-    
-    void Start()
+    public GameState State { get; private set; }
+
+    private void Start()
     {
         SetState(GameState.ExpandMap);
         _audioSource = GetComponent<AudioSource>();
     }
 
-    void SetState(GameState state)
+    private void SetState(GameState state)
     {
         State = state;
         GetComponent<ExpandMapState>().enabled = state == GameState.ExpandMap;
@@ -38,7 +34,7 @@ public class GameStateManager : MonoBehaviour
         {
             GameState.ExpandMap => $"Find and Press a Button\nto start Round {_roundNumber}",
             GameState.TimerState => $"Round {_roundNumber} Starting",
-            GameState.PlayState => $"Burn The Spiders",
+            GameState.PlayState => "Burn The Spiders",
             _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
         };
 

@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayState : MonoBehaviour
 {
@@ -25,9 +21,6 @@ public class PlayState : MonoBehaviour
         enemyWatcher.enabled = false;
 
         var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (var enemy in enemies)
-        {
-            Destroy(enemy);
-        }
+        foreach (var enemy in enemies) Destroy(enemy);
     }
 }

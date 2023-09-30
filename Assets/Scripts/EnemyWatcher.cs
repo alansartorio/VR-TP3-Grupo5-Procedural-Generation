@@ -3,23 +3,23 @@ using UnityEngine;
 [RequireComponent(typeof(EnemySpawner))]
 public class EnemyWatcher : MonoBehaviour
 {
+    [SerializeField] private GameStateManager gameStateManager;
     private int _aliveEnemyCount;
     private EnemySpawner _spawner;
-    [SerializeField] private GameStateManager gameStateManager;
 
     private void Awake()
     {
         _spawner = GetComponent<EnemySpawner>();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         _aliveEnemyCount = 0;
         _spawner.OnEnemyDeath.AddListener(OnEnemyDeath);
         _spawner.OnEnemySpawn.AddListener(OnEnemySpawn);
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         _spawner.OnEnemyDeath.RemoveListener(OnEnemyDeath);
         _spawner.OnEnemySpawn.RemoveListener(OnEnemySpawn);
@@ -33,9 +33,6 @@ public class EnemyWatcher : MonoBehaviour
     public void OnEnemyDeath()
     {
         _aliveEnemyCount--;
-        if (_aliveEnemyCount == 0 && _spawner.DidFinishSpawning)
-        {
-            gameStateManager.AllEnemiesKilled();
-        }
+        if (_aliveEnemyCount == 0 && _spawner.DidFinishSpawning) gameStateManager.AllEnemiesKilled();
     }
 }

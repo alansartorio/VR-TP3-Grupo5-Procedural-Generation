@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(GameStateManager))]
 public class ExpandMapState : MonoBehaviour
@@ -29,7 +25,7 @@ public class ExpandMapState : MonoBehaviour
         // interact.action.performed -= InteractPerformed;
         // FindObjectOfType<ExpandController>().enabled = false;
     }
-    
+
     // private void InteractPerformed(InputAction.CallbackContext obj)
     // {
     //     var pos = pointerPosition.action.ReadValue<Vector2>();

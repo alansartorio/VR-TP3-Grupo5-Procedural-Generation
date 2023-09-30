@@ -1,22 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AlanSartorio.GridPathGenerator;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
 {
-    private GridPathGenerator<Vector2Int> _generator;
-    private Dictionary<Vector2Int, GameObject> _objects = new();
-    private Dictionary<Vector2Int, GameObject[]> _nodeBorderObjects = new();
-    private Dictionary<Vector2Int, Vector2Int?> _nodeParent = new();
-    private Dictionary<Vector2Int, GameObject> _fillerObjects = new();
-
     [SerializeField] private List<GameObject> fillerObjects;
     [SerializeField] private GameObject baseObject;
     [SerializeField] private GameObject entranceObject;
@@ -24,17 +15,22 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private GameObject borderObject;
     [SerializeField] private GameObject teleportationAnchor;
     [SerializeField] private float gridSize;
+    private readonly Dictionary<Vector2Int, GameObject> _fillerObjects = new();
+    private GridPathGenerator<Vector2Int> _generator;
+    private readonly Dictionary<Vector2Int, GameObject[]> _nodeBorderObjects = new();
+    private readonly Dictionary<Vector2Int, Vector2Int?> _nodeParent = new();
+    private readonly Dictionary<Vector2Int, GameObject> _objects = new();
 
     [NonSerialized] public UnityEvent<GridPathGenerator<Vector2Int>> OnMapChanged = new();
 
-    void Start()
+    private void Start()
     {
         _generator = new GridPathGenerator<Vector2Int>(1, 5, new Vector2IntNeighborGetter(), Vector2Int.zero);
         var delta = _generator.Initialize();
         OnMapChanged.Invoke(_generator);
         _fillerObjects[new Vector2Int(1, 1)] = null;
         ApplyDelta(delta);
-        for (int i = 0; i < 2; i++)
+        for (var i = 0; i < 2; i++)
         {
             var positions = _generator.GetEnableablePositions().ToArray();
             ExpandNode(positions[Random.Range(0, positions.Length)]);
@@ -57,20 +53,11 @@ public class MapGenerator : MonoBehaviour
 
     private void ApplyDelta(NodesDelta<Vector2Int> delta)
     {
-        foreach (var node in delta.removedNodes)
-        {
-            _nodeParent.Remove(node.Position);
-        }
+        foreach (var node in delta.removedNodes) _nodeParent.Remove(node.Position);
 
-        foreach (var added in delta.addedNodes)
-        {
-            _nodeParent[added.node.Position] = added.parent?.Position;
-        }
+        foreach (var added in delta.addedNodes) _nodeParent[added.node.Position] = added.parent?.Position;
 
-        foreach (var enabled in delta.enabledNodes)
-        {
-            AddNode(enabled.Position, _nodeParent[enabled.Position]);
-        }
+        foreach (var enabled in delta.enabledNodes) AddNode(enabled.Position, _nodeParent[enabled.Position]);
 
         // Replace borders with entrances where determined
         foreach (var enableable in _generator.GetEnableablePositions())
@@ -121,7 +108,7 @@ public class MapGenerator : MonoBehaviour
             new(0, 1, -90),
             new(1, 0, 0),
             new(0, -1, 90),
-            new(-1, 0, 180),
+            new(-1, 0, 180)
         };
 
         _nodeBorderObjects[pos] = new GameObject[4];
