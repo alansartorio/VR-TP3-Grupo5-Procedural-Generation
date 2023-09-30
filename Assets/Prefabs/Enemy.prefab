@@ -62,6 +62,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hitAudioSource: {fileID: 4563888329729028715}
+  deathAudioClip: {fileID: 8300000, guid: e2ac9064900026244be776890340975e, type: 3}
 --- !u!114 &284215753251618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +304,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0

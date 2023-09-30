@@ -19,6 +19,7 @@ public class EnemyBehaviour : MonoBehaviour
     [NonSerialized] public UnityEvent OnDeath = new();
 
     [SerializeField] private AudioSource hitAudioSource;
+    [SerializeField] private AudioClip deathAudioClip;
 
     private void Start()
     {
@@ -75,6 +76,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             Health = 0;
             OnDeath.Invoke();
+            AudioSource.PlayClipAtPoint(deathAudioClip, transform.position);
             Destroy(gameObject);
         }
         OnHealthChange.Invoke(this);
