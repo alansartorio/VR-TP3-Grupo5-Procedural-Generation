@@ -34,7 +34,7 @@ public class MapGenerator : MonoBehaviour
         OnMapChanged.Invoke(_generator);
         _fillerObjects[new Vector2Int(1, 1)] = null;
         ApplyDelta(delta);
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 2; i++)
         {
             var positions = _generator.GetEnableablePositions().ToArray();
             ExpandNode(positions[Random.Range(0, positions.Length)]);
