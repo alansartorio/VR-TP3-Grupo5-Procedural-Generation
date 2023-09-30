@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStateManager: {fileID: 0}
   mapGenerator: {fileID: 0}
-  timeBetweenNodes: 5
+  timeBetweenNodes: 4
   Timer: -1
   NodeIndex: -1
   MaxHealth: 2
