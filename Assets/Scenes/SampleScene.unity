@@ -1544,7 +1544,7 @@ MonoBehaviour:
   m_Camera: {fileID: 1554345834}
   m_OriginBaseGameObject: {fileID: 561930711}
   m_CameraFloorOffsetObject: {fileID: 253453695}
-  m_RequestedTrackingOriginMode: 1
+  m_RequestedTrackingOriginMode: 0
   m_CameraYOffset: 1.7
 --- !u!4 &561930714
 Transform:
@@ -2345,7 +2345,7 @@ MonoBehaviour:
   baseObject: {fileID: 0}
   entranceObject: {fileID: 6529009099769130015, guid: d1e03ab91f034cc79a7afe4073b6b8b9,
     type: 3}
-  arrowObject: {fileID: 919132149155446097, guid: 6e7710d7c94d4d449b2818debb45da31,
+  arrowObject: {fileID: 5453042740182158972, guid: 746bef795585e9546bb85fca05c2d657,
     type: 3}
   borderObject: {fileID: 1542202878425585553, guid: a05f9f9dd4c0d98cf9fd7d9531b08818,
     type: 3}

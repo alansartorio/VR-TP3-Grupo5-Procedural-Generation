@@ -41,6 +41,13 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private GameObject InstantiateWithAnimation(GameObject prefab, Transform parent)
+    {
+        var obj = Instantiate(prefab, parent);
+        obj.AddComponent<SpawnAnimation>();
+        return obj;
+    }
+
     public void ExpandNode(Vector2Int pos)
     {
         var delta = _generator.EnableNode(pos);
@@ -73,7 +80,9 @@ public class MapGenerator : MonoBehaviour
             {
                 var angleIndex = DeltaToAngleIndex(enableable - parent.Value);
                 var border = parentBorders[angleIndex];
-                var entrance = Instantiate(entranceObject, _objects[parent.Value].transform);
+                if (border.TryGetComponent<EntranceBehaviour>(out var entranceComponent))
+                    continue;
+                var entrance = InstantiateWithAnimation(entranceObject, _objects[parent.Value].transform);
                 entrance.transform.localPosition = border.transform.localPosition;
                 entrance.transform.localRotation = border.transform.localRotation;
                 entrance.GetComponent<EntranceBehaviour>().NodePosition = enableable;
@@ -119,7 +128,7 @@ public class MapGenerator : MonoBehaviour
         for (var i = 0; i < 4; i++)
         {
             var data = positions[(i - angleIndex + 4) % 4];
-            var border = Instantiate(borderObject, parent, false);
+            var border = InstantiateWithAnimation(borderObject, parent);
             border.transform.localPosition += new Vector3(data.x * gridSize / 2, 0, data.y * gridSize / 2);
             border.transform.localRotation *= Quaternion.Euler(0, data.z, 0);
             border.name = $"Node Border {i}";
@@ -131,7 +140,7 @@ public class MapGenerator : MonoBehaviour
     {
         if (_fillerObjects.ContainsKey(pos)) return;
         // var obj = Instantiate(fillerObjects[Random.Range(0, fillerObjects.Count)], parent, false);
-        var obj = Instantiate(fillerObjects[Random.Range(0, fillerObjects.Count)]);
+        var obj = InstantiateWithAnimation(fillerObjects[Random.Range(0, fillerObjects.Count)], transform);
         obj.transform.position = GetNodeOrigin(pos) / 2;
         obj.transform.Rotate(Vector3.up, Random.Range(0, 360f));
         _fillerObjects[pos] = obj;
@@ -144,7 +153,7 @@ public class MapGenerator : MonoBehaviour
         {
             if (baseObject != null)
             {
-                nodeObject = Instantiate(baseObject, transform, true);
+                nodeObject = InstantiateWithAnimation(baseObject, transform);
             }
             else
             {
@@ -158,8 +167,8 @@ public class MapGenerator : MonoBehaviour
             nodeObject = new GameObject("Node");
             nodeObject.transform.SetParent(transform, false);
 
-            var borderLeft = Instantiate(borderObject, nodeObject.transform, false);
-            var borderRight = Instantiate(borderObject, nodeObject.transform, false);
+            var borderLeft = InstantiateWithAnimation(borderObject, nodeObject.transform);
+            var borderRight = InstantiateWithAnimation(borderObject, nodeObject.transform);
 
             borderLeft.transform.localPosition += new Vector3(-gridSize / 2, 0, -gridSize);
             borderRight.transform.localPosition += new Vector3(gridSize / 2, 0, -gridSize);
@@ -176,8 +185,8 @@ public class MapGenerator : MonoBehaviour
 
             var anchor = Instantiate(teleportationAnchor, nodeObject.transform, false);
             anchor.transform.position = new Vector3(0, 0, -gridSize);
-            var arrow = Instantiate(arrowObject, nodeObject.transform);
-            arrow.transform.position = new Vector3(0, 0.01f, -gridSize);
+            var arrow = InstantiateWithAnimation(arrowObject, nodeObject.transform);
+            arrow.transform.position = new Vector3(0, 0, -gridSize);
 
             var conjugate = new Vector2Int(delta.y, -delta.x);
             PutFillerObject(pos * 2 - delta + conjugate, nodeObject.transform);
@@ -186,7 +195,7 @@ public class MapGenerator : MonoBehaviour
             nodeObject.transform.localRotation = Quaternion.Euler(0, angleIndex * 90f, 0);
         }
 
-        Instantiate(teleportationAnchor, nodeObject.transform, false);
+        InstantiateWithAnimation(teleportationAnchor, nodeObject.transform);
 
         nodeObject.transform.localPosition = GetNodeOrigin(pos);
         _objects.Add(pos, nodeObject);
