@@ -17,10 +17,14 @@ public class GameStateManager : MonoBehaviour
     public GameState State { get; private set; }
 
     [SerializeField] private TMP_Text text;
+    [SerializeField] private AudioClip roundFinishedSound;
+    private AudioSource _audioSource;
+    private int _roundNumber = 1;
     
     void Start()
     {
         SetState(GameState.ExpandMap);
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void SetState(GameState state)
@@ -32,9 +36,10 @@ public class GameStateManager : MonoBehaviour
 
         var message = state switch
         {
-            GameState.ExpandMap => "Find and Press a Button\nto Expand map",
-            GameState.TimerState => "Round Starting",
-            GameState.PlayState => "Burn The Spiders",
+            GameState.ExpandMap => $"Find and Press a Button\nto start Round {_roundNumber}",
+            GameState.TimerState => $"Round {_roundNumber} Starting",
+            GameState.PlayState => $"Burn The Spiders",
+            _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
         };
 
         text.SetText(message);
@@ -54,6 +59,8 @@ public class GameStateManager : MonoBehaviour
     public void AllEnemiesKilled()
     {
         SetState(GameState.ExpandMap);
+        _audioSource.PlayOneShot(roundFinishedSound);
+        _roundNumber++;
     }
 
     public void PlayerExpandedMap()
